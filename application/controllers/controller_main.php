@@ -5,9 +5,22 @@
   class Controller_Main extends Controller
   {
 
-    function action_index()
+    function __construct()
     {
-      $this->view->generate('main_view.php', 'template_view.php');
+      $this->model = new Model_Main();
+      $this->view = new View();
+    }
+
+/*    function action_index()
+    {
+      $data = $this->model->get_data();
+      $this->view->generate('add_view.php', 'template_view.php', $data);
+    }
+*/
+    public function action_index()
+    {
+      $data = $this->model->get_posts();
+      $this->view->generate('posts_view.php', 'template_view.php', $data);
     }
   }
 

@@ -4,25 +4,70 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>Bootstrap 101 Template</title>
+    <title>Блог</title>
 
-    <!-- Bootstrap -->
-    <link type="text/css" href="css/bootstrap.min.css" rel="stylesheet">
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script type="text/javascript" src="js/bootstrap.min.js"></script>
-
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
     <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.2/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
   </head>
   <body>
-    <h1>Hello, world!</h1>
-    <?php include 'application/views/'.$content_view; ?>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <h1>Header</h1>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-8">
+          <a href="/" class="btn btn-default" role="button">
+              Блог
+          </a>
+          <button type="button" name="button" class="btn btn-default">Обо мне</button>
+          <button type="button" name="button" class="btn btn-default">Работы</button>
+          <span class="pull-right">
+            <a href="/posts/add" class="btn btn-default" role="button">
+                Добавить пост
+            </a>
+            <button type="button" class="btn btn-default">
+              Войти
+            </button>
+          </span>
+        </div>
+
+      </div>
+      <br>
+      <div class="row">
+        <div class="col-md-8">
+
+        <?php include 'application/views/'.$content_view ?>
+
+        </div>
+        <div class="col-md-4">
+          <h4>Tags</h4>
+          <span>Some, default, panel, content, here, Nulla, vitae, elit, libero,
+             a, pharetra, augue, Aenean, lacinia, bibendum, nulla, sed, consectetur,
+              Aenean, eu, leo, quam, Pellentesque, ornare, sem, lacinia, quam,
+               venenatis, vestibulum, Nullam, id, dolor, id, nibh, ultricies,
+                vehicula, ut, id, elit</span>
+          <h4>Архив</h4>
+          <ul class="list-group">
+            <li class="list-group-item">
+              <span class="badge">10</span>
+              Январь
+            </li>
+            <li class="list-group-item">
+              <span class="badge">20</span>
+              Февраль
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
   </body>
 </html>

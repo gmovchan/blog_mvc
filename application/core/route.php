@@ -11,14 +11,12 @@
 
       $routes = explode('/', $_SERVER['REQUEST_URI']);
 
-      /*сдвинул индекс массива на 1, потому что проект находится
-      в папке, которая отображается в адресной строке */
-      if (!empty($routes[2])) {
-        $controller_name = $routes[2];
+      if (!empty($routes[1])) {
+        $controller_name = $routes[1];
       }
 
-      if (!empty($routes[3])) {
-        $action_name = $routes[3];
+      if (!empty($routes[2])) {
+        $action_name = $routes[2];
       }
 
       $model_name = 'Model_'.$controller_name;
@@ -35,10 +33,14 @@
       $controller_file = strtolower($controller_name).'.php';
       $controller_path = 'application/controllers/'.$controller_file;
 
-//      echo $controller_path;
+/*      echo "<br>";
+      echo $controller_path;*/
 
       if (file_exists($controller_path)) {
-//        echo $controller_file;
+
+/*        echo "<br>";
+        echo $controller_file;*/
+
         include 'application/controllers/'.$controller_file;
       } else {
         Route::ErrorPage404();
@@ -49,6 +51,9 @@
       то будет создан новый экземпляр этого класса.*/
       $controller = new $controller_name;
       $action = $action_name;
+
+/*      echo "<br>";
+      echo $action;*/
 
       if (method_exists($controller, $action)) {
         $controller -> $action();
