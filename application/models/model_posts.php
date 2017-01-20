@@ -15,10 +15,7 @@
       $stmt->bind_param('ss', $header, $text);
 
       if (!$stmt->execute()) {
-        echo 'Ошибка выполнения запроса \n"';
-        echo "Номер_ошибки: " . $mysqli->errno . "<br>";
-        echo "Ошибка: " . $mysqli->error . "<br>";
-        $mysqli->close();
+        $this->MysqlQueryError($mysqli);
       } else {
         echo "QUERY SUCCESS!";
       }
@@ -46,35 +43,35 @@
 
             $tag = mb_strtolower($tag);
 
+            /*неоходимо добавлялся ли уже такой тег и если да, надо получить его
+            id*/
             $sql = "SELECT `id` FROM `tags` WHERE `name` = '$tag'";
 
             var_dump($sql);
 
             if (!$result = $mysqli->query($sql)) {
-              echo 'Ошибка выполнения запроса \n"';
-              echo "Номер_ошибки: " . $mysqli->errno . "<br>";
-              echo "Ошибка: " . $mysqli->error . "<br>";
-              $mysqli->close();
+              $this->MysqlQueryError($mysqli);
             }
 
             if ($result->num_rows === 0) {
+
+              var_dump('$result->num_rows === 0');
 
               $stmt = $mysqli->prepare("INSERT INTO tags (`name`) VALUES (?)");
               $stmt->bind_param('s', $tag);
 
               if (!$stmt->execute()) {
-                echo 'Ошибка выполнения запроса \n"';
-                echo "Номер_ошибки: " . $mysqli->errno . "<br>";
-                echo "Ошибка: " . $mysqli->error . "<br>";
-                $mysqli->close();
+                echo "Ошибка";
+                $this->MysqlQueryError($mysqli);
               } else {
                 echo "QUERY SUCCESS!";
               }
 
-              $id_tags_arr[] = $mysqli->insert_id;
-
+              /*приводит к строке чтобы все значения были одного типа*/
+              $id_tags_arr[] = array('id' => ''.$mysqli->insert_id.'');
 
             } else {
+              /*возвращает строку*/
               while ($id_tag = $result->fetch_assoc()) {
                 $id_tags_arr[] = $id_tag;
               }
@@ -83,7 +80,6 @@
           }
         }
 
-        var_dump($id_tags_arr);
         /*сразу пребразовать массив $id_tags_arr в строку не получилось, потому
         что он имеет слудующую структуру
         array (size=12)
@@ -94,30 +90,39 @@
           array (size=1)
             'id' => string '8' (length=1)
         поэтому сначала потребовалось собрать его в массив проще*/
-
         $tagsArr = array();
 
         foreach ($id_tags_arr as $key => $value) {
           $tagsArr[] = $value['id'];
         }
 
-        $id_tags_str = implode(",", $tagsArr);
+        var_dump($tagsArr);
 
-        $sql = "INSERT INTO posts_and_tags (`post`, `tags`) VALUES ('$id_post', '$id_tags_str')";
+        /*избавляется от дублей*/
+        $tagsArr = array_count_values($tagsArr);
 
-        if (!$result = $mysqli->query($sql)) {
-          echo 'Ошибка выполнения запроса \n"';
-          echo "Номер_ошибки: " . $mysqli->errno . "<br>";
-          echo "Ошибка: " . $mysqli->error . "<br>";
-          $mysqli->close();
+        var_dump($tagsArr);
+
+        /*
+        необходимо было обязательно указать $value, иначе цикл в качестве
+        возвращал значение ключа вместо его именя
+        */
+
+        foreach ($tagsArr as $key => $value) {
+          var_dump($key);
+          var_dump($value);
+          $sql = "INSERT INTO posts_and_tags (`post`, `tag`) VALUES ('$id_post',
+             '$key')";
+          var_dump($sql);
+
+          if (!$result = $mysqli->query($sql)) {
+            $this->MysqlQueryError($mysqli);
+          }
         }
-
       }
 
       $stmt->close();
-
       $mysqli->close();
     }
-
   }
 ?>

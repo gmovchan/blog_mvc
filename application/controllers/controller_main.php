@@ -19,7 +19,9 @@
 */
     public function action_index()
     {
-      $data = $this->model->get_posts();
+      $data = array();
+      $data['posts'] = $this->model->get_posts();
+      $data['tags'] = $this->model->get_tags();
       $this->view->generate('posts_view.php', 'template_view.php', $data);
     }
   }

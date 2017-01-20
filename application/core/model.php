@@ -1,10 +1,17 @@
 <?php
-  /**
-   *
-   */
-  class Model
-  {
-    function get_config($name)
+  /*
+    Особый смысл в создание интерфейса и трейта не вкладывал, сделал просто потому
+    что могу
+  */
+
+  interface MysqlConnect {
+    public function get_config($name);
+    public function init_mysql_connection();
+    public function MysqlQueryError($mysqli);
+  }
+
+  trait MysqlConnectTrate {
+    public function get_config($name)
     {
       switch ($name) {
         case 'mysql':
@@ -17,12 +24,7 @@
       }
     }
 
-    function get_data()
-    {
-      # code...
-    }
-
-    function init_mysql_connection()
+    public function init_mysql_connection()
     {
       $db_login = $this->get_config('mysql');
 
@@ -47,6 +49,29 @@
 
       return $mysqli;
     }
+
+    /*потребовалось вынести вывод ошибки mysql в отдельную функцию потому что
+    он повторяется во многих местах*/
+    public function MysqlQueryError($mysqli)
+    {
+      echo 'Ошибка выполнения запроса \n"';
+      echo "Номер_ошибки: " . $mysqli->errno . "<br>";
+      echo "Ошибка: " . $mysqli->error . "<br>";
+      $mysqli->close();
+    }
+
+  }
+
+
+  class Model implements MysqlConnect
+  {
+    use MysqlConnectTrate;
+
+    function get_data()
+    {
+      # code...
+    }
+
   }
 
 ?>

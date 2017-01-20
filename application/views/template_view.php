@@ -43,15 +43,12 @@
         <div class="col-md-8">
 
         <?php include 'application/views/'.$content_view ?>
+        <?php echo $data['posts']; ?>
 
         </div>
         <div class="col-md-4">
           <h4>Tags</h4>
-          <span>Some, default, panel, content, here, Nulla, vitae, elit, libero,
-             a, pharetra, augue, Aenean, lacinia, bibendum, nulla, sed, consectetur,
-              Aenean, eu, leo, quam, Pellentesque, ornare, sem, lacinia, quam,
-               venenatis, vestibulum, Nullam, id, dolor, id, nibh, ultricies,
-                vehicula, ut, id, elit</span>
+          <?php echo $data['tags']; ?>
           <h4>Архив</h4>
           <ul class="list-group">
             <li class="list-group-item">
